@@ -140,10 +140,10 @@ tpt.run = function(){
 };
 tpt.addLink = function(){
 	$( mw.util.addPortletLink(
-		'p-tb',
+		'p-cactions',
 		'#',
 		'Tempo de duração dos tópicos',
-		'#ca-toggle-js',
+		'#ca-tpt-max-days',
 		'Alterar o número de dias durante os quais os tópicos ficam exibidos por padrão'
 	) ).click( function (e) {
 		e.preventDefault(); // prevent '#' from appearing in URL bar
