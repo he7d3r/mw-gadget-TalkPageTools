@@ -1,7 +1,7 @@
 /*
  * Altera a formatação dos tópicos das páginas de discussão, ocultando aqueles que não recebem novos comentários há alguns dias
  * @author: [[User:Helder.wiki]]
- * @source: [[Special:GlobalUsage/User:Helder.wiki/Scripts/TalkPageTools.js]] ([[File:User:Helder.wiki/Scripts/TalkPageTools.js]])
+ * @source: [[Special:GlobalUsage/User:Helder.wiki/Tools/TalkPageTools.js]] ([[File:User:Helder.wiki/Tools/TalkPageTools.js]])
  */
 
 if ( mw.config.get( 'wgDBname' ) == 'ptwiki' ){
