@@ -14,7 +14,7 @@ var defaultSettings = {
 	collapseTopics: true,
 	// TODO: Make sure this works as expected on multi level talk pages, when level != 2
 	level: 2, // == <h2> Headings ==
-	maxDays: 7,
+	maxDays: $.cookie( 'tpt-maxDays' ) || 7,
 	extraTalkPages: [],
 	monthNames: {
 		'en': [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
@@ -115,7 +115,7 @@ tpt.formatTalkPage = function () {
 		if ( days < tpt.maxDays ) {
 			$this.addClass( 'ongoing-discussion' );
 		} else if ( tpt.collapseTopics ){
-			$this.find('h2').after( '<i>' + mw.msg( 'tpt-old-topic-text', days ) + '</i>' );
+			$this.find('h2').after( '<i style="margin-bottom: 2em; display: block;">' + mw.msg( 'tpt-old-topic-text', days ) + '</i>' );
 			$this.addClass( 'mw-collapsed' );
 		}
 	});
@@ -138,5 +138,26 @@ tpt.run = function(){
 		mw.loader.using( 'mediawiki.util', tpt.formatTalkPage );
 	}
 };
+tpt.addLink = function(){
+	$( mw.util.addPortletLink(
+		'p-tb',
+		'#',
+		'Tempo de duração dos tópicos',
+		'#ca-toggle-js',
+		'Alterar o número de dias durante os quais os tópicos ficam exibidos por padrão'
+	) ).click( function (e) {
+		e.preventDefault(); // prevent '#' from appearing in URL bar
+		$.cookie(
+			'tpt-maxDays',
+			prompt( 'Deseja ocultar automaticamente os tópicos cuja última edição ocorreu há mais de quantos dias?', '7' ) || 7,
+			{
+				expires: 1,
+				path: '/'
+			}
+		);
+		document.location.reload( false ); // Reloads the document (from the cache)
+	} );
+};
 
 $( tpt.run );
+$( tpt.addLink );
