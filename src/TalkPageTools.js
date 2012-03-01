@@ -135,7 +135,7 @@ tpt.run = function(){
 
 		// Define interface messages
 		mw.messages.set( int );
-		mw.loader.using( 'mediawiki.util', tpt.formatTalkPage );
+		mw.loader.using( ['mediawiki.util', 'jquery.makeCollapsible'], tpt.formatTalkPage );
 	}
 };
 tpt.addLink = function(){
