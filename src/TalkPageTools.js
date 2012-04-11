@@ -3,8 +3,12 @@
  * @author: [[User:Helder.wiki]]
  * @source: [[Special:GlobalUsage/User:Helder.wiki/Tools/TalkPageTools.js]] ([[File:User:Helder.wiki/Tools/TalkPageTools.js]])
  */
+/*jslint browser: true, white: true, devel: true */
+/*global jQuery, mediaWiki */
+( function ( $, mw /* , undefined */ ) {
+'use strict';
 
-if ( mw.config.get( 'wgDBname' ) == 'ptwiki' ){
+if ( mw.config.get( 'wgDBname' ) === 'ptwiki' ){
 	window.tpt = {
 		extraTalkPages: [ 'Wikipédia:Café_dos_administradores', 'Wikipédia:Esplanada/propostas', 'Wikipédia:Esplanada/geral' ]
 	};
@@ -38,10 +42,12 @@ if( typeof window.tpt === 'undefined' ){
 
 tpt.i18n = {
 	'en': {
-		'tpt-old-topic-text': 'This topic was last edited $1 days ago. Click on the section header to toggle the comments.'
+		'tpt-old-topic-text': 'This topic was last edited $1 days ago. Click on the section header to toggle the comments.',
+		'tpt-unsigned-topic-text': 'All comments on this topic are unsigned.'
 	},
 	'pt': {
-		'tpt-old-topic-text': 'Este tópico foi editado pela última vez há $1 dias. Clique no título da seção para exibir ou ocultar os comentários.'
+		'tpt-old-topic-text': 'Este tópico foi editado pela última vez há $1 dias. Clique no título da seção para exibir ou ocultar os comentários.',
+		'tpt-unsigned-topic-text': 'Todos os comentários deste tópico estão sem assinatura.'
 	}
 };
 
@@ -108,6 +114,7 @@ tpt.formatTalkPage = function () {
 		if ( dates.length === 0 ) {
 			// This top was not signed by anyone
 			// TODO: maybe add a visible warning or change the color?
+			$this.find('h2').after( '<i class="error" style="margin-bottom: 2em; display: block;">' + mw.msg( 'tpt-unsigned-topic-text' ) + '</i>' );
 			return true;
 		}
 		dates.sort( function(a,b){return b-a;} ); // Descending order
@@ -124,7 +131,7 @@ tpt.formatTalkPage = function () {
 };
 
 tpt.run = function(){
-	if( $('#ca-addsection').length > 0 || $.inArray( mw.config.get( 'wgPageName' ), tpt.extraTalkPages) != -1 ) {
+	if( $('#ca-addsection').length > 0 || $.inArray( mw.config.get( 'wgPageName' ), tpt.extraTalkPages) !== -1 ) {
 		var int = tpt.i18n.en;
 
 		// Define language fallbacks
@@ -161,3 +168,5 @@ tpt.addLink = function(){
 
 $( tpt.run );
 $( tpt.addLink );
+ 
+}( jQuery, mediaWiki ) );
