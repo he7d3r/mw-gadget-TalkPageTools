@@ -10,7 +10,11 @@
 
 if ( mw.config.get( 'wgDBname' ) === 'ptwiki' ){
 	window.tpt = {
-		extraTalkPages: [ 'Wikipédia:Café_dos_administradores', 'Wikipédia:Esplanada/propostas', 'Wikipédia:Esplanada/geral' ]
+		extraTalkPages: [
+			'Wikipédia:Café_dos_administradores', 'Wikipédia:Esplanada/propostas',
+			'Wikipédia:Esplanada/geral', 'Wikipédia:Fusão/Central_de_fusões',
+			'Wikipédia:Fontes_fiáveis/Central_de_fiabilidade'
+		]
 	};
 }
 
