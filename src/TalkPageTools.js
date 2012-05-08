@@ -29,8 +29,8 @@ var defaultSettings = {
 		'pt': [ 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro' ]
 	},
 	reTimeStamp: {
-		'en': /(\d{1,2}):(\d{1,2}), (\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4}) \(UTC\)/g,
-		'pt': /(\d{1,2})h(\d{1,2})min de (\d{1,2}) de (janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro) de (\d{4}) \(UTC\)/g
+		'en': /(\d{1,2}):(\d{1,2}), (\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4}) \(UTC\)/gi,
+		'pt': /(\d{1,2})h(\d{1,2})min de (\d{1,2}) de (janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro) de (\d{4}) \(UTC\)/gi
 	},
 	dateOrder: {
 		// Change this for languages where the parts of the timestamps are in a different order
