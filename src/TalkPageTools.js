@@ -100,7 +100,9 @@ tpt.formatTalkPage = function () {
 	].join('\n'));
 	$('#mw-content-text').find('h2' ).filter(function(i,item){
 		var $this = $(item);
-		return !$this.parent().is('#toctitle') && $this.attr('id') !== 'mw-previewheader';
+		return !$this.parent().is('#toctitle')
+				&& $this.attr('id') !== 'mw-previewheader'
+				&& !$this.hasClass( 'diff-currentversion-title' );
 	}).each(function(){
 		var $this = $(this);
 		if ( tpt.collapseTopics ){
