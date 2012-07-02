@@ -98,7 +98,7 @@ tpt.formatTalkPage = function () {
 		'div.ongoing-discussion {background-color:#FFF;} ',
 		'.topic {background-color:#EEE;}'
 	].join('\n'));
-	mw.util.$content.find('h2' ).filter(function(i,item){
+	$('#mw-content-text').find('h2' ).filter(function(i,item){
 		var $this = $(item);
 		return !$this.parent().is('#toctitle') && $this.attr('id') !== 'mw-previewheader';
 	}).each(function(){
