@@ -22,7 +22,7 @@ var defaultSettings = {
 	collapseTopics: true,
 	// TODO: Make sure this works as expected on multi level talk pages, when level != 2
 	level: 2, // == <h2> Headings ==
-	maxDays: $.cookie( 'tpt-maxDays' ) || 7,
+	maxDays: $.cookie( mw.config.get('wgCookiePrefix') + 'tpt-maxDays' ) || 7,
 	extraTalkPages: [],
 	monthNames: {
 		'en': [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
@@ -162,7 +162,7 @@ tpt.addLink = function(){
 	) ).click( function (e) {
 		e.preventDefault(); // prevent '#' from appearing in URL bar
 		$.cookie(
-			'tpt-maxDays',
+			mw.config.get('wgCookiePrefix') + 'tpt-maxDays',
 			prompt( 'Deseja ocultar automaticamente os tópicos cuja última edição ocorreu há mais de quantos dias?', '7' ) || 7,
 			{
 				expires: 1,
