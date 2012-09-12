@@ -3,9 +3,9 @@
  * @author: [[User:Helder.wiki]]
  * @source: [[Special:GlobalUsage/User:Helder.wiki/Tools/TalkPageTools.js]] ([[File:User:Helder.wiki/Tools/TalkPageTools.js]])
  */
-/*jslint browser: true, white: true, devel: true */
-/*global jQuery, mediaWiki */
-( function ( $, mw /* , undefined */ ) {
+/*jslint browser: true, white: true, devel: true, todo: true */
+/*global mediaWiki, jQuery*/
+( function ( mw, $ ) {
 'use strict';
 
 if ( mw.config.get( 'wgDBname' ) === 'ptwiki' ){
@@ -18,7 +18,7 @@ if ( mw.config.get( 'wgDBname' ) === 'ptwiki' ){
 	};
 }
 
-var defaultSettings = {
+var tpt = {
 	collapseTopics: true,
 	// TODO: Make sure this works as expected on multi level talk pages, when level != 2
 	level: 2, // == <h2> Headings ==
@@ -35,23 +35,16 @@ var defaultSettings = {
 	dateOrder: {
 		// Change this for languages where the parts of the timestamps are in a different order
 		// 'lang': { hours: #, minutes: #, day: #, month: #, year: # }
-	}
-};
-
-if( typeof window.tpt === 'undefined' ){
-	window.tpt = defaultSettings;
-} else if ( typeof window.tpt === 'object' ){
-	window.tpt = $.extend({}, defaultSettings, window.tpt);
-}
-
-tpt.i18n = {
-	'en': {
-		'tpt-old-topic-text': 'This topic was last edited $1 days ago. Click on the section header to toggle the comments.',
-		'tpt-unsigned-topic-text': 'All comments on this topic are unsigned.'
 	},
-	'pt': {
-		'tpt-old-topic-text': 'Este tópico foi editado pela última vez há $1 dias. Clique no título da seção para exibir ou ocultar os comentários.',
-		'tpt-unsigned-topic-text': 'Todos os comentários deste tópico estão sem assinatura.'
+	i18n: {
+		'en': {
+			'tpt-old-topic-text': 'This topic was last edited $1 days ago. Click on the section header to toggle the comments.',
+			'tpt-unsigned-topic-text': 'All comments on this topic are unsigned.'
+		},
+		'pt': {
+			'tpt-old-topic-text': 'Este tópico foi editado pela última vez há $1 dias. Clique no título da seção para exibir ou ocultar os comentários.',
+			'tpt-unsigned-topic-text': 'Todos os comentários deste tópico estão sem assinatura.'
+		}
 	}
 };
 
@@ -98,8 +91,8 @@ tpt.formatTalkPage = function () {
 		'div.ongoing-discussion {background-color:#FFF;} ',
 		'.topic {background-color:#EEE;}'
 	].join('\n'));
-	$('#mw-content-text').find('h2' ).filter(function(i,item){
-		var $this = $(item);
+	$('#mw-content-text').find('h2' ).filter(function(){
+		var $this = $(this);
 		return !$this.parent().is('#toctitle')
 				&& $this.attr('id') !== 'mw-previewheader'
 				&& !$this.hasClass( 'diff-currentversion-title' );
@@ -114,7 +107,7 @@ tpt.formatTalkPage = function () {
 			$this.nextUntil('h' + level).andSelf().wrapAll('<div class="topic" />');
 		}
 	});
-	$('.topic').each(function(i, elem){
+	$('.topic').each(function(){
 		var $this = $(this), days;
 
 		dates = tpt.getDates( $this.text() );
@@ -173,7 +166,15 @@ tpt.addLink = function(){
 	} );
 };
 
-$( tpt.run );
-$( tpt.addLink );
- 
-}( jQuery, mediaWiki ) );
+if( window.tpt === undefined ){
+	window.tpt = tpt;
+} else if ( typeof window.tpt === 'object' ){
+	window.tpt = $.extend({}, tpt, window.tpt);
+}
+
+if( $.inArray( mw.config.get('wgAction'), [ 'view', 'purge' ]) !== -1 ){
+	$( tpt.run );
+	$( tpt.addLink );
+}
+
+}( mediaWiki, jQuery) );
