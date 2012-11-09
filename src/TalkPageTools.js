@@ -86,7 +86,7 @@ tpt.formatTalkPage = function () {
 		today = new Date();
 
 	mw.util.addCSS([
-		'.topic h2.mw-collapsible-toggle {float:none; cursor: pointer; text-align: left;} ',
+		//'.topic h2.mw-collapsible-toggle {float:none; cursor: pointer; text-align: left;} ',
 		//'.topic:hover {background-color: #FFE;} ',
 		'div.ongoing-discussion {background-color:#FFF;} ',
 		'.topic {background-color:#EEE;}'
@@ -101,6 +101,12 @@ tpt.formatTalkPage = function () {
 		if ( tpt.collapseTopics ){
 			// Based on code from http://stackoverflow.com/a/7968463
 			$this.addClass('mw-collapsible-toggle')
+				// mw.util.addCSS is too slow!
+				.css({
+					float: 'none';
+					cursor: 'pointer',
+					text-align: 'left'
+				})
 				.nextUntil('h' + level).wrapAll('<div class="mw-collapsible-content" />').parent().add( $this )
 				.andSelf().wrapAll('<div class="topic mw-collapsible" />');
 		} else {
