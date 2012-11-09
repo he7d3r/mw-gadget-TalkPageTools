@@ -103,9 +103,9 @@ tpt.formatTalkPage = function () {
 			$this.addClass('mw-collapsible-toggle')
 				// mw.util.addCSS is too slow!
 				.css({
-					float: 'none';
-					cursor: 'pointer',
-					text-align: 'left'
+					'float': 'none',
+					'cursor': 'pointer',
+					'text-align': 'left'
 				})
 				.nextUntil('h' + level).wrapAll('<div class="mw-collapsible-content" />').parent().add( $this )
 				.andSelf().wrapAll('<div class="topic mw-collapsible" />');
