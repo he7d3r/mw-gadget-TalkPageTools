@@ -86,7 +86,7 @@ tpt.formatTalkPage = function () {
 		today = new Date();
 
 	mw.util.addCSS([
-		'.topic h2.mw-collapsible-toggle {float:none; cursor: pointer;} ',
+		'.topic h2.mw-collapsible-toggle {float:none; cursor: pointer; text-align: left;} ',
 		//'.topic:hover {background-color: #FFE;} ',
 		'div.ongoing-discussion {background-color:#FFF;} ',
 		'.topic {background-color:#EEE;}'
