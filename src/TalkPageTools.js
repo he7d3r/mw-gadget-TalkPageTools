@@ -25,7 +25,7 @@ var tpt = {
 	maxDays: $.cookie( mw.config.get('wgCookiePrefix') + 'tpt-maxDays' ) || 7,
 	extraTalkPages: [],
 	monthNames: {
-		'en': [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
+		'en': [ 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december' ],
 		'pt': [ 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro' ]
 	},
 	reTimeStamp: {
@@ -65,7 +65,7 @@ tpt.getDates = function ( text ){
 		date = new Date();
 		date.setUTCFullYear(
 			match[ dateOrder.year],
-			$.inArray( match[ dateOrder.month ], monthNames ),
+			$.inArray( match[ dateOrder.month ].toLowerCase(), monthNames ),
 			match[ dateOrder.day ]
 		);
 		date.setUTCHours(
