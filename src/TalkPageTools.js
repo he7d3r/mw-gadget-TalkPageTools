@@ -95,6 +95,7 @@ tpt.formatTalkPage = function () {
 		var $this = $(this);
 		return !$this.parent().is('#toctitle')
 				&& $this.attr('id') !== 'mw-previewheader'
+				&& !$this.hasClass( 'lqt_header' )
 				&& !$this.hasClass( 'diff-currentversion-title' );
 	}).each(function(){
 		var $this = $(this);
