@@ -92,8 +92,10 @@ tpt.formatTalkPage = function () {
 		'.topic {background-color:#EEE;}'
 	].join('\n'));
 	$('#mw-content-text').find('h2' ).filter(function(){
-		var $this = $(this);
-		return !$this.parent().is('#toctitle')
+		var $this = $(this),
+			$parent = $this.parent();
+		return !$parent.is('#toctitle')
+				&& !$parent.hasClass('lqt-contents-wrapper')
 				&& $this.attr('id') !== 'mw-previewheader'
 				&& !$this.hasClass( 'lqt_header' )
 				&& !$this.hasClass( 'diff-currentversion-title' );
