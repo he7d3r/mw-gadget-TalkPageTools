@@ -54,7 +54,7 @@ tpt.timeDistanceInDays = function ( d1, d2 ){
 };
 
 tpt.getDates = function ( text ){
-	var lang = mw.config.get( 'wgContentLanguage' ),
+	var	lang = mw.config.get( 'wgContentLanguage' ),
 		monthNames = tpt.monthNames[ lang ] || tpt.monthNames.en,
 		reTimeStamp = tpt.reTimeStamp[ lang ] || tpt.reTimeStamp.en,
 		defaultOrder = { hours: 1, minutes: 2, day: 3, month: 4, year: 5 },
@@ -81,7 +81,7 @@ tpt.getDates = function ( text ){
 };
 
 tpt.formatTalkPage = function () {
-	var level = tpt.level,
+	var	level = tpt.level,
 		dates,
 		today = new Date();
 
@@ -91,8 +91,7 @@ tpt.formatTalkPage = function () {
 		'div.ongoing-discussion {background-color:#FFF;} ',
 		'.topic {background-color:#EEE;}'
 	].join('\n'));
-	$('#mw-content-text').hide()
-	.find('h2' ).filter(function(){
+	$('#mw-content-text').find('h2' ).filter(function(){
 		var $this = $(this),
 			$parent = $this.parent();
 		return !$parent.is('#toctitle')
@@ -138,7 +137,6 @@ tpt.formatTalkPage = function () {
 	});
 
 	$( '.mw-collapsible' ).makeCollapsible();
-	$( '#mw-content-text' ).show();
 };
 
 tpt.run = function(){
