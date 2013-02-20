@@ -83,7 +83,8 @@ tpt.getDates = function ( text ){
 tpt.formatTalkPage = function () {
 	var level = tpt.level,
 		dates,
-		today = new Date();
+		today = new Date()
+		$section;
 
 	mw.util.addCSS([
 		//'.topic h2.mw-collapsible-toggle {float:none; cursor: pointer; text-align: left;} ',
@@ -139,9 +140,12 @@ tpt.formatTalkPage = function () {
 
 	$( '.mw-collapsible' ).makeCollapsible();
 	$( '#mw-content-text' ).show();
-	$('html, body').animate({
-		scrollTop: $('[id="' + window.location.hash.substr(1) + '"]').offset().top
-	}, 0 );
+	$section = $('[id="' + window.location.hash.substr(1) + '"]');
+	if( $section.length ){
+		$('html, body').animate({
+			scrollTop: $section.offset().top
+		}, 0 );
+	}
 };
 
 tpt.run = function(){
