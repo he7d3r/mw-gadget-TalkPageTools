@@ -83,7 +83,7 @@ tpt.getDates = function ( text ){
 tpt.formatTalkPage = function () {
 	var level = tpt.level,
 		dates,
-		today = new Date()
+		today = new Date(),
 		$section;
 
 	mw.util.addCSS([
