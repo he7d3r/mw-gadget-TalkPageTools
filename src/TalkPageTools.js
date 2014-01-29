@@ -110,7 +110,12 @@ tpt.formatTalkPage = function () {
 				.css({
 					'float': 'none',
 					'cursor': 'pointer',
-					'text-align': 'left'
+					'text-align': 'left',
+					// [[bugzilla:60441#c7]]
+					'-moz-user-select': 'all',
+					'-webkit-user-select': 'all',
+					'-ms-user-select': 'all',
+					'user-select': 'all'
 				})
 				.nextUntil('h' + level).wrapAll('<div class="mw-collapsible-content" />').parent().add( $this )
 				.andSelf().wrapAll('<div class="topic mw-collapsible" />');
