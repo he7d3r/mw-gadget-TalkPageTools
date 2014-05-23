@@ -118,9 +118,9 @@ tpt.formatTalkPage = function () {
 					'user-select': 'all'
 				})
 				.nextUntil('h' + level).wrapAll('<div class="mw-collapsible-content" />').parent().add( $this )
-				.andSelf().wrapAll('<div class="topic mw-collapsible" />');
+				.addBack().wrapAll('<div class="topic mw-collapsible" />');
 		} else {
-			$this.nextUntil('h' + level).andSelf().wrapAll('<div class="topic" />');
+			$this.nextUntil('h' + level).addBack().wrapAll('<div class="topic" />');
 		}
 	});
 	$('.topic').each(function(){
