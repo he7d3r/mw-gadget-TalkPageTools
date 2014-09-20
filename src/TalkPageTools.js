@@ -2,7 +2,6 @@
  * Altera a formatação dos tópicos das páginas de discussão, ocultando aqueles que não recebem novos comentários há alguns dias
  * @author: Helder (https://github.com/he7d3r)
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
- * @source: [[Special:GlobalUsage/User:Helder.wiki/Tools/TalkPageTools.js]] ([[File:User:Helder.wiki/Tools/TalkPageTools.js]])
  */
 /*jslint browser: true, white: true, devel: true, todo: true */
 /*global mediaWiki, jQuery*/
