@@ -3,8 +3,6 @@
  * @author: Helder (https://github.com/he7d3r)
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */
-/*jslint browser: true, white: true, devel: true, todo: true */
-/*global mediaWiki, jQuery*/
 ( function ( mw, $ ) {
 'use strict';
 
@@ -155,16 +153,16 @@ tpt.formatTalkPage = function () {
 
 tpt.run = function(){
 	if( $('#ca-addsection').length > 0 || $.inArray( mw.config.get( 'wgPageName' ), tpt.extraTalkPages) !== -1 ) {
-		var int = tpt.i18n.en;
+		var i18n = tpt.i18n.en;
 
 		// Define language fallbacks
 		tpt.i18n['pt-br'] = tpt.i18n.pt;
 
 		// Replace default English interface by translation if available
-		$.extend( true, int, tpt.i18n[ mw.config.get( 'wgUserLanguage' ) ] );
+		$.extend( true, i18n, tpt.i18n[ mw.config.get( 'wgUserLanguage' ) ] );
 
 		// Define interface messages
-		mw.messages.set( int );
+		mw.messages.set( i18n );
 		mw.loader.using( ['mediawiki.util', 'jquery.makeCollapsible'], tpt.formatTalkPage );
 	}
 };
