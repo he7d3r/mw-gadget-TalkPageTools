@@ -188,9 +188,13 @@
 		) ).click( function (e) {
 			e.preventDefault(); // prevent '#' from appearing in URL bar
 			mw.loader.using( 'jquery.cookie', function () {
+				var days = prompt( mw.msg( 'tpt-change-max-days-question' ), '7' );
+				if( days === null ){
+					return;
+				}
 				$.cookie(
 					mw.config.get('wgCookiePrefix') + 'tpt-maxDays',
-					prompt( mw.msg( 'tpt-change-max-days-question' ), '7' ) || 7,
+					days,
 					{
 						expires: 1,
 						path: '/'
