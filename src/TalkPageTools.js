@@ -20,7 +20,7 @@
 		collapseTopics: true,
 		// TODO: Make sure this works as expected on multi level talk pages, when level != 2
 		level: 2, // == <h2> Headings ==
-		maxDays: $.cookie( mw.config.get('wgCookiePrefix') + 'tpt-maxDays' ) || 7,
+		maxDays: 7,
 		extraTalkPages: [],
 		monthNames: {
 			'en': [ 'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december' ],
@@ -37,11 +37,17 @@
 		i18n: {
 			'en': {
 				'tpt-old-topic-text': 'This topic was last edited $1 days ago. Click on the section header to toggle the comments.',
-				'tpt-unsigned-topic-text': 'All comments on this topic are unsigned.'
+				'tpt-unsigned-topic-text': 'All comments on this topic are unsigned.',
+				'tpt-change-max-days': 'Duration of topics',
+				'tpt-change-max-days-title': 'Change the number of days during which the topics stay open by default',
+				'tpt-change-max-days-question': 'Do you want to automatically hide the topics last commented more than how many days ago?'
 			},
 			'pt': {
 				'tpt-old-topic-text': 'Este tópico foi editado pela última vez há $1 dias. Clique no título da seção para exibir ou ocultar os comentários.',
-				'tpt-unsigned-topic-text': 'Todos os comentários deste tópico estão sem assinatura.'
+				'tpt-unsigned-topic-text': 'Todos os comentários deste tópico estão sem assinatura.',
+				'tpt-change-max-days': 'Tempo de duração dos tópicos',
+				'tpt-change-max-days-title': 'Alterar o número de dias durante os quais os tópicos ficam exibidos por padrão',
+				'tpt-change-max-days-question': 'Deseja ocultar automaticamente os tópicos cuja última edição ocorreu há mais de quantos dias?'
 			}
 		}
 	};
@@ -122,7 +128,8 @@
 			}
 		});
 		$('.topic').each(function () {
-			var $this = $(this), days;
+			var days, maxDays,
+				$this = $(this);
 
 			dates = tpt.getDates( $this.text() );
 			if ( dates.length === 0 ) {
@@ -133,7 +140,8 @@
 			}
 			dates.sort( function (a, b) {return b - a;} ); // Descending order
 			days = tpt.timeDistanceInDays( today, dates[0] );
-			if ( days < tpt.maxDays ) {
+			maxDays = $.cookie( mw.config.get('wgCookiePrefix') + 'tpt-maxDays' ) || tpt.maxDays;
+			if ( days < maxDays ) {
 				$this.addClass( 'ongoing-discussion' );
 			} else if ( tpt.collapseTopics ) {
 				$this.find('h2').after( '<i style="margin-bottom: 2em; display: block;">' + mw.msg( 'tpt-old-topic-text', days ) + '</i>' );
@@ -163,27 +171,33 @@
 
 			// Define interface messages
 			mw.messages.set( i18n );
-			mw.loader.using( ['mediawiki.util', 'jquery.makeCollapsible'], tpt.formatTalkPage );
+			mw.loader.using( [
+				'mediawiki.util',
+				'jquery.makeCollapsible',
+				'jquery.cookie'
+			], tpt.formatTalkPage );
 		}
 	};
 	tpt.addLink = function () {
 		$( mw.util.addPortletLink(
 			'p-cactions',
 			'#',
-			'Tempo de duração dos tópicos',
+			mw.msg( 'tpt-change-max-days' ),
 			'#ca-tpt-max-days',
-			'Alterar o número de dias durante os quais os tópicos ficam exibidos por padrão'
+			mw.msg( 'tpt-change-max-days-title' )
 		) ).click( function (e) {
 			e.preventDefault(); // prevent '#' from appearing in URL bar
-			$.cookie(
-				mw.config.get('wgCookiePrefix') + 'tpt-maxDays',
-				prompt( 'Deseja ocultar automaticamente os tópicos cuja última edição ocorreu há mais de quantos dias?', '7' ) || 7,
-				{
-					expires: 1,
-					path: '/'
-				}
-			);
-			document.location.reload( false ); // Reloads the document (from the cache)
+			mw.loader.using( 'jquery.cookie', function () {
+				$.cookie(
+					mw.config.get('wgCookiePrefix') + 'tpt-maxDays',
+					prompt( mw.msg( 'tpt-change-max-days-question' ), '7' ) || 7,
+					{
+						expires: 1,
+						path: '/'
+					}
+				);
+				document.location.reload( false ); // Reloads the document (from the cache)
+			} );
 		} );
 	};
 
