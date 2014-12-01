@@ -115,12 +115,13 @@
 						'float': 'none',
 						'cursor': 'pointer',
 						'text-align': 'left',
-						// [[bugzilla:60441#c7]]
+						// [[phab:T62441#670801]]
 						'-moz-user-select': 'all',
 						'-webkit-user-select': 'all',
 						'-ms-user-select': 'all',
 						'user-select': 'all'
 					})
+					// Workaround for [[phab:T8104]]
 					.nextUntil('h' + level).wrapAll('<div class="mw-collapsible-content" />').parent().add( $this )
 					.addBack().wrapAll('<div class="topic mw-collapsible" />');
 			} else {
