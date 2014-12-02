@@ -86,9 +86,36 @@
 
 	tpt.formatTalkPage = function () {
 		var level = tpt.level,
-			dates,
 			today = new Date(),
-			$section;
+			open = false,
+			$comments = $(),
+			$header = $(),
+			dates,
+			$section,
+			wrap = function ( $header, $comments, collapseTopics ) {
+				var css = {
+					'float': 'none',
+					'cursor': 'pointer',
+					'text-align': 'left',
+					// [[phab:T62441#670801]]
+					'-moz-user-select': 'all',
+					'-webkit-user-select': 'all',
+					'-ms-user-select': 'all',
+					'user-select': 'all'
+				};
+				if ( collapseTopics ) {
+					$header.addClass( 'mw-collapsible-toggle' )
+						// mw.util.addCSS is too slow!
+						.css( css )
+						.add(
+							$comments.wrapAll( '<div class="mw-collapsible-content"></div>' )
+								.parent()
+						).wrapAll( '<div class="topic mw-collapsible"></div>' );
+				} else {
+					$header.add( $comments )
+						.wrapAll( '<div class="topic"></div>' );
+				}
+			};
 
 		mw.util.addCSS([
 			//'.topic h2.mw-collapsible-toggle {float:none; cursor: pointer; text-align: left;} ',
@@ -96,47 +123,43 @@
 			'div.ongoing-discussion {background-color:#FFF;} ',
 			'.topic {background-color:#EEE;}'
 		].join('\n'));
-		$('#mw-content-text').hide()
-		.find('h2' ).filter(function () {
-			var $this = $(this),
+
+		// Based on http://stackoverflow.com/a/25873943/2062663
+		$( '#mw-content-text' ).contents().each( function () {
+			var $this = $( this ),
 				$parent = $this.parent();
-			return !$parent.is('#toctitle')
-					&& !$parent.hasClass('lqt-contents-wrapper')
-					&& $this.attr('id') !== 'mw-previewheader'
-					&& !$this.hasClass( 'lqt_header' )
-					&& !$this.hasClass( 'diff-currentversion-title' );
-		}).each(function () {
-			var $this = $(this);
-			if ( tpt.collapseTopics ) {
-				// Based on code from http://stackoverflow.com/a/7968463
-				$this.addClass('mw-collapsible-toggle')
-					// mw.util.addCSS is too slow!
-					.css({
-						'float': 'none',
-						'cursor': 'pointer',
-						'text-align': 'left',
-						// [[phab:T62441#670801]]
-						'-moz-user-select': 'all',
-						'-webkit-user-select': 'all',
-						'-ms-user-select': 'all',
-						'user-select': 'all'
-					})
-					// Workaround for [[phab:T8104]]
-					.nextUntil('h' + level).wrapAll('<div class="mw-collapsible-content" />').parent().add( $this )
-					.addBack().wrapAll('<div class="topic mw-collapsible" />');
+			if ( $this.is( 'h' + level )
+				&& !$parent.is( '#toctitle' )
+				&& !$parent.hasClass( 'lqt-contents-wrapper' )
+				&& $this.attr( 'id' ) !== 'mw-previewheader'
+				&& !$this.hasClass( 'lqt_header' )
+				&& !$this.hasClass( 'diff-currentversion-title' )
+			) {
+				if ( open ) {
+					wrap( $header, $comments, tpt.collapseTopics );
+				}
+				$header = $this;
+				$comments = $();
+				open = true;
 			} else {
-				$this.nextUntil('h' + level).addBack().wrapAll('<div class="topic" />');
+				$comments = $comments.add( $this );
 			}
-		});
+		} );
+		if ( open ) {
+			wrap( $header, $comments, tpt.collapseTopics );
+		}
 		$('.topic').each(function () {
 			var days, maxDays,
 				$this = $(this);
 
 			dates = tpt.getDates( $this.text() );
 			if ( dates.length === 0 ) {
-				// This top was not signed by anyone
+				// This topic was not signed by anyone
 				// TODO: maybe add a visible warning or change the color?
-				$this.find('h2').after( '<i class="error" style="margin-bottom: 2em; display: block;">' + mw.msg( 'tpt-unsigned-topic-text' ) + '</i>' );
+				$this.find('h2').after(
+					$( '<i class="error" style="margin-bottom: 2em; display: block;"></i>' )
+						.text( mw.msg( 'tpt-unsigned-topic-text' ) )
+				);
 				return true;
 			}
 			dates.sort( function (a, b) {return b - a;} ); // Descending order
@@ -145,7 +168,10 @@
 			if ( days < maxDays ) {
 				$this.addClass( 'ongoing-discussion' );
 			} else if ( tpt.collapseTopics ) {
-				$this.find('h2').after( '<i style="margin-bottom: 2em; display: block;">' + mw.msg( 'tpt-old-topic-text', days ) + '</i>' );
+				$this.find('h2').after(
+					$( '<i style="margin-bottom: 2em; display: block;"></i>' )
+						.text( mw.msg( 'tpt-old-topic-text', days ) )
+				);
 				$this.addClass( 'mw-collapsed' );
 			}
 		});
@@ -190,7 +216,7 @@
 			e.preventDefault(); // prevent '#' from appearing in URL bar
 			mw.loader.using( 'jquery.cookie', function () {
 				var days = prompt( mw.msg( 'tpt-change-max-days-question' ), '7' );
-				if( days === null ){
+				if ( days === null ) {
 					return;
 				}
 				$.cookie(
