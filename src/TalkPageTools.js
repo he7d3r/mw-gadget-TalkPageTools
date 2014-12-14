@@ -195,9 +195,11 @@
 
 			// Replace default English interface by translation if available
 			$.extend( true, i18n, tpt.i18n[ mw.config.get( 'wgUserLanguage' ) ] );
-
 			// Define interface messages
 			mw.messages.set( i18n );
+
+			$( tpt.addLink );
+
 			mw.loader.using( [
 				'mediawiki.util',
 				'jquery.makeCollapsible',
@@ -240,7 +242,6 @@
 
 	if ( $.inArray( mw.config.get('wgAction'), [ 'view', 'purge' ]) !== -1 ) {
 		$( tpt.run );
-		$( tpt.addLink );
 	}
 
 }( mediaWiki, jQuery) );
